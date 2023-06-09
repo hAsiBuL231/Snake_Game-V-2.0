@@ -1,34 +1,47 @@
-import 'package:flutter/material.dart';
-import 'UI Design Folder/all_pages.dart';
-import 'UI Design Folder/homepage.dart';
-import 'login file/sign_in_page.dart';
-import 'login file/sign_up_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'SplashScreen.dart';
+import 'dart:async';
 
-/*Future main() async {
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    if (user == null) {
+      print('User is currently signed out!');
+      runApp(Splash1());
+    } else {
+      print('User is signed in!');
+      runApp(Splash2());
+    }
+  });
+}
 
-}*/
-void main() => runApp(const MyApp());
+/*var initial = 'login';
 
+  bool isLogin = Auth().isUserLoggedIn(email: Auth().currentUser!.email.toString()) as bool;
+  if (isLogin) {
+    initial = 'homepage';
+  }
+  runApp(MyApp(fstRoute: initial,key: initial,));*/
+
+/*
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Snake Game",
+      title: 'Splash Screen',
       debugShowCheckedModeBanner: false,
-      initialRoute: "homepage",
+      home: Splash1(),
+      initialRoute: 'homepage',
       routes: {
-        'homepage': (context) => const HomePage(),
+        'homepage': (context) => HomePage(),
         'all pages': (context) => const AllPagesClass(),
-        'login': (context) => const SignInPage(),
+        'login': (context) => LoginPage(),
         'signup': (context) => const SignUpPage(),
       },
-      //home: HomePage(),
     );
   }
 }
+*/

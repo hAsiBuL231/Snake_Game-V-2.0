@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:snake_game_v2/UI%20Design%20Folder/homepage.dart';
 import '../globals.dart';
 
 enum Direction { up, down, left, right }
@@ -46,16 +47,19 @@ class GamePageOpenState extends State<GamePageOpen> {
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                            fruit = 10;
-                            score = 0;
-                            snakePosition = [0, 20, 40];
+                        fruit = 10;
+                        score = 0;
+                        snakePosition = [0, 20, 40];
                         return const GamePageOpen();
                       }));
                     },
                     child: const Text("Try Again")),
                 TextButton(
                     //onPressed: () => SystemNavigator.pop(),
-                  onPressed: () => Navigator.pop(context),
+                    onPressed: () {
+                      HomePage();
+                      Navigator.of(context).pop(true);
+                    },
                     child: const Text("Exit"))
               ]);
         });
@@ -154,7 +158,7 @@ class GamePageOpenState extends State<GamePageOpen> {
                           return Container(
                               decoration: const BoxDecoration(
                                   image: DecorationImage(
-                                      image: AssetImage('images/egg.jpeg'),
+                                      image: AssetImage('images/egg.png'),
                                       fit: BoxFit.fill),
                                   shape: BoxShape.rectangle,
                                   color: Colors.white));

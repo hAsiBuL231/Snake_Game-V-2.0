@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import '../Game Files/touch_blocked.dart';
+import '../Game Files/touch_open.dart';
 import '../Settings Folder/drawer.dart';
-import '../game_file/touch_blocked.dart';
-import '../game_file/touch_open.dart';
 import '../globals.dart';
 import 'all_pages.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
+  HomePage({Key? key}) : super(key: key);
   @override
   HomePageState createState() => HomePageState();
 }
@@ -26,7 +25,6 @@ class HomePageState extends State<HomePage> {
             backgroundColor: Colors.transparent,
             title: const Text("Flutter Snake Game"),
             centerTitle: false,
-
             leading: IconButton(
                 icon: const Icon(Icons.menu),
                 onPressed: () {
@@ -51,6 +49,7 @@ class HomePageState extends State<HomePage> {
             ]),
         body: Center(
           child: Column(children: <Widget>[
+            SizedBox(height: 50),
             ClipRRect(
                 borderRadius: BorderRadius.circular(200.0),
                 child: Image.asset('images/snake.png',
@@ -82,8 +81,14 @@ class HomePageState extends State<HomePage> {
             )
           ]),
         ),
-        floatingActionButton: const Icon(Icons.account_circle,
-            size: 50, color: Colors.lightGreen),
+        floatingActionButton: IconButton(
+          icon: Icon(
+            Icons.account_circle,
+            size: 50,
+            color: Colors.lightGreen,
+          ),
+          onPressed: () {},
+        ),
       ),
     );
   }

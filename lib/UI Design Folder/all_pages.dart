@@ -1,11 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../login file/forget_pass.dart';
-import '../login file/google.dart';
-import '../login file/sign_in_page.dart';
-import '../login file/sign_up_page.dart';
+import '../Authentication/ForgetPasswordPage.dart';
+import '../Authentication/SignInPage.dart';
+import '../Authentication/SignUpPage.dart';
 import 'homepage.dart';
 
 class AllPagesClass extends StatefulWidget {
@@ -42,7 +40,7 @@ class _AllPagesClassState extends State<AllPagesClass> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const HomePage(),
+                      builder: (context) => HomePage(),
                     ));
               },
               icon: const Icon(Icons.cabin)),
@@ -61,11 +59,7 @@ class _AllPagesClassState extends State<AllPagesClass> {
         child: Column(
           children: [
             FilledButton(
-                onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginPage(),
-                    )),
+                onPressed: () {},
                 child: const Text("FilledButton : LoginPage")),
             TextButton(
                 onPressed: () {
@@ -93,10 +87,8 @@ class _AllPagesClassState extends State<AllPagesClass> {
                 child: const Text('OutlineButton : PassResetClass')),
             IconButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomePage()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomePage()));
                 },
                 icon: const Icon(Icons.login)),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -104,7 +96,7 @@ class _AllPagesClassState extends State<AllPagesClass> {
                   onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const HomePage(),
+                        builder: (context) => HomePage(),
                       )),
                   child: const Text("FilledButton")),
               MaterialButton(
@@ -112,7 +104,7 @@ class _AllPagesClassState extends State<AllPagesClass> {
                   onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const HomePage(),
+                        builder: (context) => HomePage(),
                       )))
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
