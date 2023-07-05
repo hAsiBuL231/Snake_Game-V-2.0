@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:snake_game_v2/Database/UserForm.dart';
 
 import 'SignInPage.dart';
 
@@ -12,7 +13,7 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  String _name = '';
+  //String _name = '';
   String _email = '';
   String _password = '';
   String _error = '';
@@ -56,7 +57,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 key: formKey,
                 child: Column(
                   children: [
-                    TextFormField(
+                    /*TextFormField(
                       onChanged: (value) => _name = value,
                       decoration: InputDecoration(
                           fillColor: Colors.transparent,
@@ -67,7 +68,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             borderRadius: BorderRadius.circular(10),
                           )),
                     ),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 15),*/
                     TextFormField(
                       validator: (value) {
                         if (value!.contains('@gmail.com')) {
@@ -77,6 +78,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       },
                       onChanged: (value) => _email = value,
                       decoration: InputDecoration(
+                          prefixIcon:
+                              const Icon(Icons.mail, color: Colors.blue),
                           labelText: 'Email',
                           hintText: 'Email',
                           border: OutlineInputBorder(
@@ -94,6 +97,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       onChanged: (value) => _password = value,
                       obscureText: true,
                       decoration: InputDecoration(
+                          prefixIcon:
+                              const Icon(Icons.vpn_key, color: Colors.blue),
                           labelText: 'Password',
                           hintText: 'Password',
                           border: OutlineInputBorder(
@@ -110,6 +115,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       },
                       obscureText: true,
                       decoration: InputDecoration(
+                          prefixIcon:
+                              const Icon(Icons.vpn_key, color: Colors.blue),
                           labelText: 'Confirm Password',
                           hintText: 'Confirm Password',
                           border: OutlineInputBorder(
@@ -120,8 +127,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     Text(_message),
                     const SizedBox(height: 20),
                     Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           const Text(
                             "Sign Up",
@@ -132,34 +138,37 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           FloatingActionButton(
                               onPressed: () async {
-                                if (formKey.currentState!
-                                    .validate()) {
+                                if (formKey.currentState!.validate()) {
                                   try {
                                     await FirebaseAuth.instance
                                         .createUserWithEmailAndPassword(
-                                        email: _email.trim(),
-                                        password:
-                                        _password.trim());
+                                            email: _email.trim(),
+                                            password: _password.trim());
                                   } on FirebaseAuthException catch (e) {
                                     if (e.code == 'weak-password') {
                                       _error =
-                                      'The password provided is too weak.';
-                                    } else if (e.code == 'email-already-in-use') {
+                                          'The password provided is too weak.';
+                                    } else if (e.code ==
+                                        'email-already-in-use') {
                                       _error =
-                                      'The account already exists for that email.';
+                                          'The account already exists for that email.';
                                     } else {
                                       _error = e.message!;
                                     }
                                   }
 
-                                  User? user = FirebaseAuth.instance.currentUser;
-                                  if(user != null)
-                                  {
+                                  User? user =
+                                      FirebaseAuth.instance.currentUser;
+                                  if (user != null) {
                                     print('User is Signed in!');
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => UserForm()));
                                   }
                                 }
                                 setState(() {
-                                  _message=_error;
+                                  _message = _error;
                                 });
                               },
                               child: const Icon(Icons.arrow_forward))

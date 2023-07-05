@@ -50,6 +50,8 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                           },
                           onChanged: (value) => _email = value,
                           decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.email,
+                                  color: Colors.blue),
                               hintText: 'Email',
                               labelText: 'Email',
                               border: OutlineInputBorder(
@@ -69,8 +71,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                         ),
                         FloatingActionButton(
                             onPressed: () async {
-                              await FirebaseAuth.instance.signOut();
-                              User? user = FirebaseAuth.instance.currentUser;
+                              await FirebaseAuth.instance.sendPasswordResetEmail(email: _email);
                             },
                             child: const Icon(Icons.arrow_forward))
                       ]),

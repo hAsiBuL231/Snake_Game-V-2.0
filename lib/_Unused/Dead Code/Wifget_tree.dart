@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
 import 'package:snake_game_v2/login file/Auth.dart';
 import 'package:snake_game_v2/login%20file/google.dart';
-import 'package:snake_game_v2/setup.dart';
+import 'package:snake_game_v2/SampleSetup.dart';
 
 import 'SignInPage.dart';
 

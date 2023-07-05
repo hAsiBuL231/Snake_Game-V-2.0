@@ -19,19 +19,19 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      home: const SampleGame(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class SampleGame extends StatefulWidget {
+  const SampleGame({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<SampleGame> createState() => _SampleGameState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _SampleGameState extends State<SampleGame> {
   // Down or right - head val is grater than other
   //up or left - head val is less than other
   // head refers to last element of array

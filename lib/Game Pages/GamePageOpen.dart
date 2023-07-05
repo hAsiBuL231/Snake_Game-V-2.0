@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:snake_game_v2/UI%20Design%20Folder/homepage.dart';
-import '../globals.dart';
+import 'package:snake_game_v2/UI%20Design%20Folder/HomePage.dart';
+import '../Database/globals.dart';
 
 enum Direction { up, down, left, right }
 
@@ -18,6 +20,7 @@ class GamePageOpenState extends State<GamePageOpen> {
   int fruit = 10;
   int score = 0;
   var snakePosition = [0, 20, 40];
+  bool _shouldRunCallback = true;
 
   startGame() {
     Future.delayed(Duration(milliseconds: gLevel), () {
@@ -35,7 +38,32 @@ class GamePageOpenState extends State<GamePageOpen> {
     });
   }
 
+  Future<void> addScore(int score) async {
+    String? user = FirebaseAuth.instance.currentUser?.email;
+    CollectionReference scores =
+        FirebaseFirestore.instance.collection('scores');
+    await scores.add({
+      'player': user.toString(),
+      'score': score.toString(),
+    });
+  }
+
+  void resetGame() {
+    if (Navigator.canPop(context)) Navigator.pop(context);
+    setState(() {
+      fruit = 100;
+      score = 0;
+      snakePosition = [0, 20, 40];
+      _shouldRunCallback = true;
+    });
+    startGame();
+  }
+
   gameOver() {
+    setState(() {
+      _shouldRunCallback = false;
+    });
+    addScore(score);
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -44,22 +72,10 @@ class GamePageOpenState extends State<GamePageOpen> {
               content: Text("Your Score is: $score"),
               actions: [
                 TextButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        fruit = 10;
-                        score = 0;
-                        snakePosition = [0, 20, 40];
-                        return const GamePageOpen();
-                      }));
-                    },
-                    child: const Text("Try Again")),
+                    onPressed: resetGame, child: const Text("Try Again")),
                 TextButton(
-                    //onPressed: () => SystemNavigator.pop(),
-                    onPressed: () {
-                      HomePage();
-                      Navigator.of(context).pop(true);
-                    },
+                    onPressed: () => Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => HomePage())),
                     child: const Text("Exit"))
               ]);
         });

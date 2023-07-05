@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:snake_game_v2/Settings%20Folder/settings.dart';
+import 'package:snake_game_v2/Database/GameScores.dart';
+import 'package:snake_game_v2/Settings%20Folder/GameSettings.dart';
 
-import 'info.dart';
+import 'InfoPage.dart';
 
 class Func extends StatefulWidget {
   const Func({Key? key}) : super(key: key);
@@ -42,10 +43,11 @@ class _FuncState extends State<Func> {
                     }));
                   },
                   title: const Text("Info")), // Drawer : Info
-              const ListTile(
+              ListTile(
                   leading: Icon(Icons.leaderboard),
-                  title:
-                      TextButton(onPressed: null, child: Text("Leaderboard"))),
+                  onTap: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => GameScores())),
+                  title: Text("Leaderboard")),
               const ListTile(
                   leading: Icon(Icons.help_outline),
                   title: TextButton(
@@ -63,7 +65,7 @@ class _FuncState extends State<Func> {
                 onTap: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return const SettingPage();
+                    return GameSettings();
                   }));
                 },
               ), // Drawer : settings

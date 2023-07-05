@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "844472045374-6h7lqkekp49b6hl78ggud4f6qk5btu4f.apps.googleusercontent.com",
+          "client_id": "844472045374-2b9rllpqta34i6o5ch6o1et0f036mk7h.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.snake_game_v2",
-            "certificate_hash": "c188263a2047f43b35694b06403f03fe8fcd14d3"
+            "certificate_hash": "865cc53f53b6f64d643b60bbef5391565bee6a61"
           }
         },
         {

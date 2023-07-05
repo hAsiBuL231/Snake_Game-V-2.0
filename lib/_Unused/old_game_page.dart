@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../globals.dart';
+import '../Database/globals.dart';
 
 enum Direction { up, down, left, right }
 
@@ -62,7 +62,7 @@ class GamePageOneState extends State<GamePageOne> {
     switch (direction) {
       case Direction.up:
         if (snakePosition.last < grow) {
-          if (gBox == 'Closed') {
+          if (gMode == 'Closed') {
             gameOver();
           }
           snakePosition.add(snakePosition.last + grow * gColumn);
@@ -72,7 +72,7 @@ class GamePageOneState extends State<GamePageOne> {
         break;
       case Direction.down:
         if (snakePosition.last > grow * gColumn) {
-          if (gBox == 'Closed') {
+          if (gMode == 'Closed') {
             gameOver();
           }
           snakePosition.add(snakePosition.last - grow * gColumn);
@@ -82,7 +82,7 @@ class GamePageOneState extends State<GamePageOne> {
         break;
       case Direction.left:
         if (snakePosition.last % grow == 0) {
-          if (gBox == 'Closed') {
+          if (gMode == 'Closed') {
             gameOver();
           }
           snakePosition.add(snakePosition.last + grow - 1);
@@ -92,7 +92,7 @@ class GamePageOneState extends State<GamePageOne> {
         break;
       case Direction.right:
         if ((snakePosition.last + 1) % grow == 0) {
-          if (gBox == 'Closed') {
+          if (gMode == 'Closed') {
             gameOver();
           }
           snakePosition.add(snakePosition.last - grow + 1);

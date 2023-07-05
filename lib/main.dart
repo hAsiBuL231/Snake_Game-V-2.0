@@ -1,13 +1,40 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'SplashScreen.dart';
 import 'dart:async';
+
+import 'UI Design Folder/WelcomePage.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  FirebaseAuth.instance.authStateChanges().listen((User? user) {
+  try {
+    await Firebase.initializeApp();
+    await FirebaseAppCheck.instance.activate(
+      //webRecaptchaSiteKey: 'recaptcha-v3-site-key',
+      androidProvider: AndroidProvider.playIntegrity,
+      //appleProvider: AppleProvider.appAttest,
+    );
+  } catch (e) {
+    print('Error during Firebase initialization: $e');
+  }
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: "Snake Game",
+        home: WelcomePage());
+  }
+}
+
+/*
+  User? user = FirebaseAuth.instance.currentUser;
+  //FirebaseAuth.instance.authStateChanges().listen((User? user) {
     if (user == null) {
       print('User is currently signed out!');
       runApp(Splash1());
@@ -15,18 +42,17 @@ Future main() async {
       print('User is signed in!');
       runApp(Splash2());
     }
-  });
-}
+  //});
+*/
 
-/*var initial = 'login';
-
+/*
+  var initial = 'login';
   bool isLogin = Auth().isUserLoggedIn(email: Auth().currentUser!.email.toString()) as bool;
   if (isLogin) {
     initial = 'homepage';
   }
-  runApp(MyApp(fstRoute: initial,key: initial,));*/
+  runApp(MyApp(fstRoute: initial,key: initial,));
 
-/*
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

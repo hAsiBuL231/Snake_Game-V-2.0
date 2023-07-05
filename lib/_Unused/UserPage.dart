@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:snake_game_v2/UI%20Design%20Folder/HomePage.dart';
 
-import 'SignInPage.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -11,11 +11,12 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
+  final userEmail = FirebaseAuth.instance.currentUser?.email;
+  final userName = FirebaseAuth.instance.currentUser?.displayName;
+  final userImage = FirebaseAuth.instance.currentUser?.photoURL;
+
   @override
   Widget build(BuildContext context) {
-    final userEmail = FirebaseAuth.instance.currentUser?.email;
-    final userName = FirebaseAuth.instance.currentUser?.displayName;
-    final userImage = FirebaseAuth.instance.currentUser?.photoURL;
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'SignInPage',
@@ -45,18 +46,18 @@ class _UserPageState extends State<UserPage> {
                     style: const TextStyle(fontSize: 18, color: Colors.black)),
                 const SizedBox(height: 50),
                 ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HomePage()));
+                    },
                     child: const Text('Go to HomePage',
                         style: TextStyle(fontSize: 24))),
                 const SizedBox(height: 50),
                 ElevatedButton(
                     onPressed: () {
                       FirebaseAuth.instance.signOut();
-                      User? user = FirebaseAuth.instance.currentUser;
-                      if(user != null)
-                      {
-                        print('User is Signed in!');
-                      }
                     },
                     child: const Text('Logout')),
               ],

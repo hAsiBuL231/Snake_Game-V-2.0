@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:snake_game_v2/Database/GameScores.dart';
+import 'package:snake_game_v2/_Unused/UserPage.dart';
+import 'package:snake_game_v2/Database/UserData.dart';
+import 'package:snake_game_v2/Database/UserForm.dart';
+import 'package:snake_game_v2/Database/UserProfile.dart';
+import 'package:snake_game_v2/test.dart';
+import 'package:snake_game_v2/test2.dart';
 
 import '../Authentication/ForgetPasswordPage.dart';
 import '../Authentication/SignInPage.dart';
 import '../Authentication/SignUpPage.dart';
-import 'homepage.dart';
+import '../Game Pages/Tik_Tak_Game.dart';
+import 'HomePage.dart';
 
 class AllPagesClass extends StatefulWidget {
   const AllPagesClass({Key? key}) : super(key: key);
@@ -54,21 +62,10 @@ class _AllPagesClassState extends State<AllPagesClass> {
           bottom: const PreferredSize(
               preferredSize: Size(20, 20), child: Text('Appbar'))),
       backgroundColor: Colors.white,
-      body: Container(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
         child: Column(
           children: [
-            FilledButton(
-                onPressed: () {},
-                child: const Text("FilledButton : LoginPage")),
-            TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SignUpPage()));
-                },
-                child: const Text("TextButton : SignUpClass")),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -76,22 +73,108 @@ class _AllPagesClassState extends State<AllPagesClass> {
                     MaterialPageRoute(
                         builder: (context) => const SignInPage()));
               },
-              child: const Text("ElevatedButton : SignInClass"),
+              child: const Text("ElevatedButton : SignInPage"),
             ),
-            OutlinedButton(
+            TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SignUpPage()));
+                },
+                child: const Text("TextButton : SignUpPage")),
+            TextButton(
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const ForgetPasswordPage(),
                     )),
-                child: const Text('OutlineButton : PassResetClass')),
+                child: const Text('OutlineButton : ForgetPasswordPage')),
+
+
+
+
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => UserForm()));
+              },
+              child: const Text("ElevatedButton : UserForm")
+            ),
+            TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => UserData()));
+                },
+                child: const Text("FilledButton : UserData")),
+            TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => UserProfile()));
+                },
+                child: const Text("FilledButton : UserProfile")),
+
             IconButton(
                 onPressed: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => HomePage()));
                 },
                 icon: const Icon(Icons.login)),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+
+
+            FilledButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const UserPage()));
+                },
+                child: const Text("FilledButton : UserPage")),
+
+
+            OutlinedButton(
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FirebaseDataScreen(),
+                    )),
+                child: const Text('OutlineButton : Test Page')),
+            OutlinedButton(
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FirebaseDataTable(),
+                    )),
+                child: const Text('OutlineButton : Test Page 2')),
+
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Tik_Tak_Game()));
+                },
+                child: const Text("ElevatedButton : Tik_Tak_Game")
+            ),
+
+
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => GameScores()));
+                },
+                child: const Text("ElevatedButton : GameScores")
+            ),
+
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               FilledButton(
                   onPressed: () => Navigator.push(
                       context,
@@ -107,10 +190,7 @@ class _AllPagesClassState extends State<AllPagesClass> {
                         builder: (context) => HomePage(),
                       )))
             ]),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              BackButton(onPressed: () => Navigator.pop(context)),
-              CloseButton(onPressed: () => SystemNavigator.pop())
-            ]),
+
             DropdownButton(
                 // Initial Value
                 value: dropdownvalue,
@@ -137,7 +217,11 @@ class _AllPagesClassState extends State<AllPagesClass> {
                 DropdownMenuItem(child: Text('Option 5'), value: 5),
               ],
               onChanged: (int? value) {},
-            )
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              BackButton(onPressed: () => Navigator.pop(context)),
+              CloseButton(onPressed: () => SystemNavigator.pop())
+            ]),
           ],
         ),
       ),

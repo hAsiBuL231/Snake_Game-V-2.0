@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../globals.dart';
+import '../Database/globals.dart';
 
 enum Direction { up, down, left, right }
 

@@ -1,8 +1,10 @@
+/*
+
 import 'package:flutter/material.dart';
-import 'package:snake_game_v2/Authentication/User%20Data.dart';
+import 'package:snake_game_v2/UI%20Design%20Folder/HomePage.dart';
 import 'package:splashscreen/splashscreen.dart';
 
-import 'Authentication/SignInPage.dart';
+import '../Authentication/SignInPage.dart';
 
 class Splash1 extends StatelessWidget {
   Image img = Image.asset('images/cover.png');
@@ -13,7 +15,7 @@ class Splash1 extends StatelessWidget {
       title: "SIGN IN",
       home: SplashScreen(
         imageBackground: img.image,
-        seconds: 6,
+        seconds: 3,
         navigateAfterSeconds: new SignInPage(),
         title: new Text(
           'SnakeHost\nVersion-2.0',
@@ -47,8 +49,8 @@ class Splash2 extends StatelessWidget {
       title: "SIGN IN",
       home: SplashScreen(
         imageBackground: img.image,
-        seconds: 6,
-        navigateAfterSeconds: new UserPage(),
+        seconds: 3,
+        navigateAfterSeconds: new HomePage(),
         title: new Text(
           'SnakeHost\nVersion-2.0',
           style: TextStyle(
@@ -71,3 +73,6 @@ class Splash2 extends StatelessWidget {
     );
   }
 }
+
+
+ */

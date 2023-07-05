@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:snake_game_v2/Authentication/User%20Data.dart';
+import 'package:snake_game_v2/UI%20Design%20Folder/HomePage.dart';
 
+import '../Database/UserForm.dart';
 import 'ForgetPasswordPage.dart';
 import 'SignUpPage.dart';
 
@@ -68,6 +69,8 @@ class _SignInPageState extends State<SignInPage> {
                         },
                         onChanged: (value) => _email = value,
                         decoration: InputDecoration(
+                            prefixIcon:
+                                const Icon(Icons.mail, color: Colors.blue),
                             hintText: 'Email',
                             labelText: 'Email',
                             border: OutlineInputBorder(
@@ -83,6 +86,8 @@ class _SignInPageState extends State<SignInPage> {
                         obscureText: true,
                         onChanged: (value) => _password = value,
                         decoration: InputDecoration(
+                            prefixIcon:
+                                const Icon(Icons.vpn_key, color: Colors.blue),
                             hintText: 'Password',
                             labelText: 'Password',
                             border: OutlineInputBorder(
@@ -90,7 +95,6 @@ class _SignInPageState extends State<SignInPage> {
                   ],
                 ),
               ),
-              const SizedBox(height: 2),
               Text(_errorMassage),
               const SizedBox(height: 2),
               TextButton(
@@ -131,27 +135,38 @@ class _SignInPageState extends State<SignInPage> {
                         }
 
                         User? user = FirebaseAuth.instance.currentUser;
+                        if (user != null) {
+                          print('User is Signed in!');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
+                        }
                       }
                     },
                     child: const Icon(Icons.arrow_forward))
               ]),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               FloatingActionButton.extended(
                   onPressed: () async {
-                    final googleUser = await GoogleSignIn().signIn();
-                    if (googleUser == null) return;
-                    final googleAuth = await googleUser.authentication;
-                    final credential = GoogleAuthProvider.credential(
-                        accessToken: googleAuth.accessToken,
-                        idToken: googleAuth.idToken);
                     try {
+                      final googleUser = await GoogleSignIn().signIn();
+                      if (googleUser == null) return;
+                      final googleAuth = await googleUser.authentication;
+                      final credential = GoogleAuthProvider.credential(
+                          accessToken: googleAuth.accessToken,
+                          idToken: googleAuth.idToken);
                       await FirebaseAuth.instance
                           .signInWithCredential(credential);
                     } catch (e) {
                       setState(() => _errorMassage = e.toString());
                     }
-
-                    FirebaseAuth.instance.currentUser?.reload();
+                    User? user = FirebaseAuth.instance.currentUser;
+                    if (user != null) {
+                      print('User is Signed in!');
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => UserForm()));
+                    }
                   },
                   icon: Image.asset('images/google_logo.png',
                       height: 28, width: 28),

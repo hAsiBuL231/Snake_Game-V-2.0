@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../globals.dart';
+import '../../Database/globals.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -25,8 +25,9 @@ class _SettingPageState extends State<SettingPage> {
             children: [
               ElevatedButton(
                   onPressed: () {
-                    gColumn += 2;
-                    setState(() {});
+                    setState(() {
+                      gColumn += 2;
+                    });
                   },
                   child: Text(
                       "Increase Grid Column Number\nColumn Num:$gColumn",
@@ -35,8 +36,9 @@ class _SettingPageState extends State<SettingPage> {
               const SizedBox(height: 20),
               ElevatedButton(
                   onPressed: () {
-                    gColumn -= 2;
-                    setState(() {});
+                    setState(() {
+                      gColumn -= 2;
+                    });
                   },
                   child: Text(
                       "Decrease Grid Column Number\nColumn Num:$gColumn",
@@ -63,14 +65,14 @@ class _SettingPageState extends State<SettingPage> {
               const SizedBox(height: 50),
               ElevatedButton(
                   onPressed: () {
-                    if (gBox == 'Closed') {
-                      gBox = 'Opened';
+                    if (gMode == 'Closed') {
+                      gMode = 'Opened';
                     } else {
-                      gBox = 'Closed';
+                      gMode = 'Closed';
                     }
                     setState(() {});
                   },
-                  child: Text("Change Game Mode\nCurrent Mode: $gBox Box",
+                  child: Text("Change Game Mode\nCurrent Mode: $gMode Box",
                       style: const TextStyle(fontSize: 20),
                       textAlign: TextAlign.center)),
             ],
