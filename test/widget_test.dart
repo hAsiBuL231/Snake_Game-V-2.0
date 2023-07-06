@@ -13,7 +13,7 @@ import 'package:snake_game_v2/_Unused/SampleSetup.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget( MyApp());
+    await tester.pumpWidget( Sample_Game());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-class GameButton{
+class GameButton {
   final id;
   String text;
   Color bg;
   bool enabled;
-  GameButton({this.id,this.text = "",this.bg= Colors.cyan, this.enabled=true});
+  GameButton(
+      {this.id, this.text = "", this.bg = Colors.cyan, this.enabled = true});
 }
 
 class Tik_Tak_Game extends StatefulWidget {
@@ -126,31 +127,32 @@ class _Tik_Tak_GameState extends State<Tik_Tak_Game> {
       winner = 2;
     }
 
-
     if (winner != -1) {
-      String winner = '';
+      String won = '';
       if (winner == 1) {
-        winner = '0 won';
+        won = 'X won';
       } else {
-        winner = 'X won';
+        won = '0 won';
       }
       showDialog(
           context: context,
-          builder: (_) =>  AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-              title: Text(winner),
-              content: Text('Tap to play again!'),
-              actions: <Widget>[
-                ElevatedButton(
-                    onPressed: resetGame, child: Text('Play again'))
-              ]));
+          builder: (_) => AlertDialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                  title: Text(won),
+                  content: Text('Tap to play again!'),
+                  actions: <Widget>[
+                    ElevatedButton(
+                        onPressed: () {
+                          if (Navigator.canPop(context)) Navigator.pop(context);
+                          resetGame();
+                        },
+                        child: Text('Play again'))
+                  ]));
     }
   }
 
-
   void resetGame() {
-    if (Navigator.canPop(context)) Navigator.pop(context);
     setState(() {
       buttonsList = doInit();
     });
@@ -162,7 +164,7 @@ class _Tik_Tak_GameState extends State<Tik_Tak_Game> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('ProTac'),
+        title: Text('Tic-Tac'),
         backgroundColor: Colors.cyan,
         centerTitle: true,
       ),

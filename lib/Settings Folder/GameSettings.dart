@@ -130,7 +130,7 @@ class GameSettingsState extends State<GameSettings> {
                     child: Text('Mode1: Touch'),
                     onPressed: () => setState(() {
                       gSystem = 'Touch';
-                      gColumn = 36;
+                      gColumn = 39;
                     }),
                   ),
                   ElevatedButton(
@@ -141,7 +141,7 @@ class GameSettingsState extends State<GameSettings> {
                     child: Text('Mode2: Button'),
                     onPressed: () => setState(() {
                       gSystem = 'Button';
-                      gColumn=20;
+                      gColumn=25;
                     }),
                   )
                 ])

@@ -1,8 +1,12 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import '../Database/GameScores.dart';
 import '../Database/globals.dart';
+import '../UI Design Folder/Functions.dart';
+import '../UI Design Folder/HomePage.dart';
 
 enum Direction { up, down, left, right }
 
@@ -18,44 +22,55 @@ class ManualPageOpenState extends State<ManualPageOpen> {
   int fruit = 10;
   int score = 0;
   var snakePosition = [0, 20, 40];
+  bool _shouldRunCallback = true;
 
   startGame() {
     Future.delayed(Duration(milliseconds: gLevel), () {
-      setState(() {
-        snakeMovement();
-        if (snakePosition.contains(fruit)) {
-          fruit = random.nextInt(grow * gColumn);
-          score++;
-        }
-        final copyList = List.from(snakePosition);
-        if (snakePosition.length > copyList.toSet().length) {
-          gameOver();
-        }
-      });
+      if (_shouldRunCallback) {
+        setState(() {
+          snakeMovement();
+          if (snakePosition.contains(fruit)) {
+            fruit = random.nextInt(grow * gColumn);
+            score++;
+          }
+          final copyList = List.from(snakePosition);
+          if (snakePosition.length > copyList.toSet().length) {
+            gameOver();
+          }
+        });
+      }
     });
   }
 
+  void resetGame() {
+    if (Navigator.canPop(context)) Navigator.pop(context);
+    setState(() {
+      fruit = 150;
+      score = 0;
+      snakePosition = [0, 20, 40];
+      _shouldRunCallback = true;
+    });
+    startGame();
+  }
+
   gameOver() {
+    setState(() {
+      _shouldRunCallback = false;
+    });
+    addScore(score);
+    var hScore = GameScoresState().highestScore;
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-              title: const Text("Game Over"),
-              content: Text("Your Score is: $score"),
+              title: Text("Game Over"),
+              content: Text("Your Score is: $score\n"
+                  "Current highest score: $hScore"),
               actions: [
                 TextButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        fruit = 10;
-                        score = 0;
-                        snakePosition = [0, 20, 40];
-                        return const ManualPageOpen();
-                      }));
-                    },
-                    child: const Text("Try Again")),
+                    onPressed: resetGame, child: const Text("Try Again")),
                 TextButton(
-                    onPressed: () => SystemNavigator.pop(),
+                    onPressed: () => nextPage(HomePage(), context),
                     child: const Text("Exit"))
               ]);
         });
@@ -99,8 +114,8 @@ class ManualPageOpenState extends State<ManualPageOpen> {
 
   @override
   Widget build(BuildContext context) {
-    int profileH = MediaQuery.of(context).size.height.toInt();
-    int profileW = MediaQuery.of(context).size.width.toInt();
+    //int profileH = MediaQuery.of(context).size.height.toInt();
+    //int profileW = MediaQuery.of(context).size.width.toInt();
     startGame();
     return Scaffold(
         body: Padding(
@@ -112,8 +127,7 @@ class ManualPageOpenState extends State<ManualPageOpen> {
                 child: Text("Score: $score",
                     style: const TextStyle(fontSize: 18))),
             Container(
-                height: profileH.toDouble() - 70,
-                width: profileW.toDouble(),
+                height: 440,
                 color: Colors.black,
                 child: GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
@@ -136,7 +150,7 @@ class ManualPageOpenState extends State<ManualPageOpen> {
                         return Container(
                             decoration: const BoxDecoration(
                                 image: DecorationImage(
-                                    image: AssetImage('images/egg.jpeg'),
+                                    image: AssetImage('images/egg.png'),
                                     fit: BoxFit.fill),
                                 shape: BoxShape.rectangle,
                                 color: Colors.white));
@@ -145,9 +159,8 @@ class ManualPageOpenState extends State<ManualPageOpen> {
                       }
                     })),
             Container(
+                height: 200,
                 padding: const EdgeInsets.all(7),
-                height: (profileH / 3) - 40,
-                width: profileW - 20,
                 color: Colors.amber,
                 child: Table(
                   children: [

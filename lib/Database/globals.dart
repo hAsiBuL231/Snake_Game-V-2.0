@@ -3,7 +3,7 @@ library globals;
 //var num = new GameSettingsState().gColumn;
 
 const int grow = 20;
-int gColumn = 38;
+int gColumn = 39;
 int gLevel = 150;
 int gScore = 0;
 //String gMode = gMode == 1 ? 'Closed' : 'Opened'; // Closed or Opened

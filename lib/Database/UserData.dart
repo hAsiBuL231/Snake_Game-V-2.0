@@ -10,11 +10,10 @@ class UserData extends StatefulWidget {
 class _UserDataState extends State<UserData> {
   Future<List<DocumentSnapshot>> _getDataFromFirebase() async {
     final userEmail = FirebaseAuth.instance.currentUser?.email;
-    CollectionReference users =
-        FirebaseFirestore.instance.collection('$userEmail');
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     // Query the collection to get all documents
-    QuerySnapshot snapshot = await users.get();
+    var snapshot = await users.where(FieldPath(['$userEmail'])).get();
 
     // Return the list of documents
     return snapshot.docs;
@@ -53,7 +52,7 @@ class _UserDataState extends State<UserData> {
               rows: snapshot.data!.map((document) {
                 Map<String, dynamic>? data =
                     document.data() as Map<String, dynamic>?;
-                Timestamp time =data!['joined'];
+                Timestamp time = data!['joined'];
                 DateTime joined = time.toDate();
                 return DataRow(
                   cells: [

@@ -6,13 +6,13 @@ import '../Database/globals.dart';
 
 enum Direction { up, down, left, right }
 
-class GamePageOne extends StatefulWidget {
-  const GamePageOne({super.key});
+class GamePageOld extends StatefulWidget {
+  const GamePageOld({super.key});
   @override
-  State<GamePageOne> createState() => GamePageOneState();
+  State<GamePageOld> createState() => GamePageOldState();
 }
 
-class GamePageOneState extends State<GamePageOne> {
+class GamePageOldState extends State<GamePageOld> {
   Direction direction = Direction.down;
   var random = Random();
   int fruit = 10;
@@ -47,7 +47,7 @@ class GamePageOneState extends State<GamePageOne> {
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return const GamePageOne();
+                        return const GamePageOld();
                       }));
                     },
                     child: const Text("Try Again")),

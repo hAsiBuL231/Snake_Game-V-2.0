@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:snake_game_v2/Authentication/SignInPage.dart';
+import 'package:snake_game_v2/UI%20Design%20Folder/HomePage.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({Key? key}) : super(key: key);
@@ -24,8 +25,8 @@ class _UserProfileState extends State<UserProfile> {
   String difference = 'loading..';
 
   _getData() async {
-    var collection = FirebaseFirestore.instance.collection('$userEmail');
-    var querySnapshot = await collection.get();
+    var collection = FirebaseFirestore.instance.collection('users');
+    var querySnapshot = await collection.where(FieldPath(['$userEmail'])).get();
     for (var queryDocumentSnapshot in querySnapshot.docs) {
       var data = queryDocumentSnapshot.data();
       setState(() {
@@ -182,17 +183,31 @@ class _UserProfileState extends State<UserProfile> {
                 ],
               ),
             ),
-            Center(
-              child: ElevatedButton(
-                  child: Text(
-                    'SignOut',
-                    style: TextStyle(fontSize: 28, color: Colors.white),
-                  ),
-                  onPressed: () {
-                    FirebaseAuth.instance.signOut();
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SignInPage()));
-                  }),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                    child: Text(
+                      'Home',
+                      style: TextStyle(fontSize: 28, color: Colors.white),
+                    ),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => HomePage()));
+                    }),
+                ElevatedButton(
+                    child: Text(
+                      'Logout',
+                      style: TextStyle(fontSize: 28, color: Colors.white),
+                    ),
+                    onPressed: () {
+                      FirebaseAuth.instance.signOut();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SignInPage()));
+                    }),
+              ],
             ),
           ],
         )));

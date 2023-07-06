@@ -1,14 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../UI Design Folder/Functions.dart';
 
 class GameScores extends StatefulWidget {
   @override
-  _GameScoresState createState() => _GameScoresState();
+  GameScoresState createState() => GameScoresState();
 }
 
-class _GameScoresState extends State<GameScores> {
-  final Stream<QuerySnapshot> _scoresStream =
-  FirebaseFirestore.instance.collection('scores').snapshots();
+class GameScoresState extends State<GameScores> {
+  int highestScore = 0;
+
+  Future<List<DocumentSnapshot>> _getDataFromFirebase() async {
+    CollectionReference scores =
+        FirebaseFirestore.instance.collection('scores');
+    var snapshot = await scores.where(FieldPath(['$userEmail'])).get();
+
+    return snapshot.docs;
+  }
+
+  //Stream<QuerySnapshot> _scoresStream =
+  //    FirebaseFirestore.instance.collection('scores').where(FieldPath(['$userEmail'])).get().snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -16,24 +29,24 @@ class _GameScoresState extends State<GameScores> {
       appBar: AppBar(
         title: Text('Game Scores'),
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: _scoresStream,
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      body: FutureBuilder<List<DocumentSnapshot>>(
+        future: _getDataFromFirebase(),
+        builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            return Text('Something went wrong');
+            return Center(child: Text('Something went wrong'));
           }
 
           return ListView(
-            children: snapshot.data!.docs.map((DocumentSnapshot document) {
+            children: snapshot.data!.map((DocumentSnapshot document) {
               Map<String, dynamic> data =
-              document.data() as Map<String, dynamic>;
-              String score= data['score'].toString();
+                  document.data() as Map<String, dynamic>;
+              highestScore = data['score'];
               return ListTile(
                 title: Text(data['player']),
-                subtitle: Text('Score: $score'),
+                subtitle: Text('Highest Score: $highestScore'),
               );
             }).toList(),
           );

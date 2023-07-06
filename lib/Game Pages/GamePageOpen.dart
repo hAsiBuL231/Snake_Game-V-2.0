@@ -4,7 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:snake_game_v2/UI%20Design%20Folder/HomePage.dart';
+import '../Database/GameScores.dart';
 import '../Database/globals.dart';
+import '../UI Design Folder/Functions.dart';
 
 enum Direction { up, down, left, right }
 
@@ -17,36 +19,29 @@ class GamePageOpen extends StatefulWidget {
 class GamePageOpenState extends State<GamePageOpen> {
   Direction direction = Direction.down;
   var random = Random();
-  int fruit = 10;
+  int fruit = 150;
   int score = 0;
   var snakePosition = [0, 20, 40];
   bool _shouldRunCallback = true;
 
   startGame() {
     Future.delayed(Duration(milliseconds: gLevel), () {
-      setState(() {
-        snakeMovement();
-        if (snakePosition.contains(fruit)) {
-          fruit = random.nextInt(grow * gColumn);
-          score++;
-        }
-        final copyList = List.from(snakePosition);
-        if (snakePosition.length > copyList.toSet().length) {
-          gameOver();
-        }
-      });
+      if (_shouldRunCallback) {
+        setState(() {
+          snakeMovement();
+          if (snakePosition.contains(fruit)) {
+            fruit = random.nextInt(grow * gColumn);
+            score++;
+          }
+          final copyList = List.from(snakePosition);
+          if (snakePosition.length > copyList.toSet().length) {
+            gameOver();
+          }
+        });
+      }
     });
   }
 
-  Future<void> addScore(int score) async {
-    String? user = FirebaseAuth.instance.currentUser?.email;
-    CollectionReference scores =
-        FirebaseFirestore.instance.collection('scores');
-    await scores.add({
-      'player': user.toString(),
-      'score': score.toString(),
-    });
-  }
 
   void resetGame() {
     if (Navigator.canPop(context)) Navigator.pop(context);
@@ -64,12 +59,14 @@ class GamePageOpenState extends State<GamePageOpen> {
       _shouldRunCallback = false;
     });
     addScore(score);
+    var hScore = GameScoresState().highestScore;
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-              title: const Text("Game Over"),
-              content: Text("Your Score is: $score"),
+              title: Text("Game Over"),
+              content: Text("Your Score is: $score\n"
+                  "Current highest score: $hScore"),
               actions: [
                 TextButton(
                     onPressed: resetGame, child: const Text("Try Again")),
@@ -120,7 +117,7 @@ class GamePageOpenState extends State<GamePageOpen> {
   @override
   Widget build(BuildContext context) {
     int profileH = MediaQuery.of(context).size.height.toInt();
-    int profileW = MediaQuery.of(context).size.width.toInt();
+    //int profileW = MediaQuery.of(context).size.width.toInt();
     startGame();
     return Scaffold(
         body: Padding(
@@ -151,7 +148,7 @@ class GamePageOpenState extends State<GamePageOpen> {
               },
               child: Container(
                   height: profileH.toDouble() - 70,
-                  width: profileW.toDouble(),
+                  //width: profileW.toDouble(),
                   color: Colors.black,
                   child: GridView.builder(
                       physics: const NeverScrollableScrollPhysics(),

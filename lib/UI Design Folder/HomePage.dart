@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:snake_game_v2/Database/GameScores.dart';
+import 'package:snake_game_v2/Database/UserData.dart';
 import 'package:snake_game_v2/Database/UserProfile.dart';
 import 'package:snake_game_v2/Game%20Pages/ManualPageOpen.dart';
+import 'package:snake_game_v2/Game%20Pages/Tic_Tac_Game.dart';
+import 'package:snake_game_v2/Settings%20Folder/GameSettings.dart';
 import 'package:snake_game_v2/Settings%20Folder/InfoPage.dart';
-import 'package:snake_game_v2/_Unused/Dead%20Code/SettingPage.dart';
+import 'package:snake_game_v2/UI%20Design%20Folder/Functions.dart';
 import '../Game Pages/GamePageClosed.dart';
 import '../Game Pages/GamePageOpen.dart';
 import '../Game Pages/ManualPageClosed.dart';
-import '../Settings Folder/drawer.dart';
+import '../Settings Folder/DrawerPage.dart';
 import '../Database/globals.dart';
-import 'all_pages.dart';
+import 'AllPagesClass.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -25,31 +29,38 @@ class HomePageState extends State<HomePage> {
               image: AssetImage("images/background.png"), fit: BoxFit.cover)),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        drawer: const Func(),
+        drawer: Drawer(child: DrawerPage()),
         appBar: AppBar(
             backgroundColor: Colors.transparent,
-            title: const Text("Flutter Snake Game"),
-            centerTitle: false,
+            title: Text("Flutter Snake Game"),
             leading: IconButton(
-                icon: const Icon(Icons.menu),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (BuildContext context) {
-                    return const Func();
-                  }));
-                }),
+              onPressed: () => nextPage(DrawerPage(), context),
+              icon: Icon(Icons.menu),
+            ),
             actions: <Widget>[
               IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const AllPagesClass(),
-                        ));
-                  },
-                  icon: const Icon(Icons.list_alt)),
+                  onPressed: () => nextPage(AllPagesClass(), context),
+                  icon: Icon(Icons.list_alt)),
               PopupMenuButton(itemBuilder: (BuildContext context) {
-                return [const PopupMenuItem(child: Text("hello"))];
+                return [
+                  PopupMenuItem(
+                      child: TextButton(
+                          onPressed: () => nextPage(UserProfile(), context),
+                          child: Text("Profile"))),
+                  PopupMenuItem(
+                      child: TextButton(
+                          onPressed: () => nextPage(UserData(), context),
+                          child: Text("User Data"))),
+                  PopupMenuItem(
+                      child: TextButton(
+                          onPressed: () => nextPage(AllPagesClass(), context),
+                          child: Text("All Pages"))),
+                  PopupMenuItem(
+                    child: ElevatedButton(
+                        onPressed: () => nextPage(Tik_Tak_Game(), context),
+                        child: const Text("Tic-Tac Game")),
+                  )
+                ];
               })
             ]),
         body: Center(
@@ -68,7 +79,7 @@ class HomePageState extends State<HomePage> {
             //            fontSize: 46,
             //            fontWeight: FontWeight.bold,
             //            color: Colors.black))),
-            SizedBox(height: 350),
+            SizedBox(height: 300),
             Column(
               children: [
                 GestureDetector(
@@ -89,33 +100,50 @@ class HomePageState extends State<HomePage> {
                     }));
                   },
                   child: Image(
-                      image: AssetImage('images/Buttons/Play.png'),
+                      image: AssetImage('images/Buttons/play.png'),
                       height: 80,
                       width: 80),
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SettingPage())),
+                      onTap: () => nextPage(GameScores(), context),
                       child: Image(
-                          image: AssetImage('images/Buttons/Setting.png'),
+                          image: AssetImage('images/Buttons/leader.png'),
                           height: 80,
                           width: 80),
                     ),
                     SizedBox(width: 30),
                     GestureDetector(
-                      onTap: () => Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => InfoPage())),
+                      onTap: () => nextPage(GameSettings(), context),
                       child: Image(
-                          image: AssetImage('images/Buttons/Menu.png'),
+                          image: AssetImage('images/Buttons/settings.png'),
                           height: 80,
                           width: 80),
-                    )
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () => nextPage(Tik_Tak_Game(), context),
+                      child: Image(
+                          image: AssetImage('images/Buttons/games.png'),
+                          height: 80,
+                          width: 80),
+                    ),
+                    SizedBox(width: 30),
+                    GestureDetector(
+                      onTap: () => nextPage(InfoPage(), context),
+                      child: Image(
+                          image: AssetImage('images/Buttons/about.png'),
+                          height: 80,
+                          width: 80),
+                    ),
                   ],
                 ),
               ],
@@ -125,11 +153,10 @@ class HomePageState extends State<HomePage> {
         floatingActionButton: IconButton(
           icon: Icon(
             Icons.account_circle,
-            size: 60,
-            color: Colors.black,
+            size: 50,
+            color: Colors.white,
           ),
-          onPressed: () => Navigator.push(
-              context, MaterialPageRoute(builder: (context) => UserProfile())),
+          onPressed: () => nextPage(UserProfile(), context),
         ),
       ),
     );

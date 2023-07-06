@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:snake_game_v2/UI%20Design%20Folder/HomePage.dart';
 
 
-class UserPage extends StatefulWidget {
-  const UserPage({Key? key}) : super(key: key);
+class UserPage_Old extends StatefulWidget {
+  const UserPage_Old({Key? key}) : super(key: key);
 
   @override
-  State<UserPage> createState() => _UserPageState();
+  State<UserPage_Old> createState() => _UserPage_OldState();
 }
 
-class _UserPageState extends State<UserPage> {
+class _UserPage_OldState extends State<UserPage_Old> {
   final userEmail = FirebaseAuth.instance.currentUser?.email;
   final userName = FirebaseAuth.instance.currentUser?.displayName;
   final userImage = FirebaseAuth.instance.currentUser?.photoURL;

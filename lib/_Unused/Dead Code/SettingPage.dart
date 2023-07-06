@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import '../../Database/globals.dart';
 
@@ -83,3 +84,4 @@ class _SettingPageState extends State<SettingPage> {
     );
   }
 }
+*/

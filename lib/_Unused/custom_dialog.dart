@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 
 class CustomDialog extends StatelessWidget {
@@ -26,3 +27,4 @@ class CustomDialog extends StatelessWidget {
     );
   }
 }
+*/

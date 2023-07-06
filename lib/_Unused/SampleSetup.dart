@@ -4,12 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 enum Direction { up, down, left, right }
-void main() {
-  runApp(const MyApp());
-}
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class Sample_Game extends StatelessWidget {
+  const Sample_Game({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

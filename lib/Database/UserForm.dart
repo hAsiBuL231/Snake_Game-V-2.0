@@ -43,20 +43,24 @@ class _UserFormState extends State<UserForm> {
     if (formKey5.currentState!.validate()) {
       try {
         CollectionReference users =
-            FirebaseFirestore.instance.collection('$userEmail');
+            FirebaseFirestore.instance.collection('users');
         DateTime now = DateTime.now();
         DateTime date = DateTime(now.year, now.month, now.day);
         // Add the user data to Firestore
-        await users.add({
-          'name': _nameController.text,
-          'email': userEmail.toString(),
-          'profession': _professionController.text,
-          'phone': _phoneController.text,
-          'location': _locationController.text,
-          'dob': _dobController.text,
-          'language': _languageController.text,
-          'joined': date,
-        });
+        await users
+            .doc('$userEmail')
+            .set({
+              'name': _nameController.text,
+              'email': userEmail.toString(),
+              'profession': _professionController.text,
+              'phone': _phoneController.text,
+              'location': _locationController.text,
+              'dob': _dobController.text,
+              'language': _languageController.text,
+              'joined': date,
+            })
+            .then((value) => SnackBar(content: Text('Data added')))
+            .catchError((error) => SnackBar(content: Text('Error: $error')));
 
         FirebaseAuth.instance.currentUser!
             .updateDisplayName(_nameController.text);
@@ -95,10 +99,8 @@ class _UserFormState extends State<UserForm> {
   }
 
   Future<void> _selectPhoto() async {
-    List<Media>? pickedFile = await ImagesPicker.pick(
-        count: 1,
-        pickType: PickType.image
-    );
+    List<Media>? pickedFile =
+        await ImagesPicker.pick(count: 1, pickType: PickType.image);
     var image = pickedFile?.first;
     //final pickedFile =
     //    await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -107,7 +109,7 @@ class _UserFormState extends State<UserForm> {
     if (pickedFile != null) {
       try {
         Reference ref = FirebaseStorage.instance.ref().child('profile.jpg');
-        await ref.putData(image as Uint8List);
+        await ref.putString(image!.path);
         ref.getDownloadURL().then((value) {
           print(value);
           setState(() {
